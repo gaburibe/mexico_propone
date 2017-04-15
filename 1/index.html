@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="style.css"/>    
+  </head>
+  <body>
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="http://d3js.org/queue.v1.min.js"></script>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+    <select id="selectMapa">
+      <option>uno</option>
+      <option>dos</option>
+    </select>
+    <script src="map.js"></script>
+  </body>
+  <script type="text/javascript">
+    $( "#selectMapa" ).change(function() {
+      updateMap()
+      console.log( "Handler for .change() called." );
+    });
+  </script>
+</html>
