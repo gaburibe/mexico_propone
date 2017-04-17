@@ -1,5 +1,15 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+ <script src="./fresco/jquery.js"></script>
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/carpeta_abierta.css">
+        <script src="./fresco/jquery-ui.js"></script>
+        <script src="./fresco//bootstrap.js"></script>
+        <link rel="import" href="fresco/dgm-navbar/dgm-navbar.html">
+        <link rel="import" href="fresco/dgm-footer/dgm-footer.html">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 <style>
 
 .municipalities {
@@ -23,82 +33,80 @@
   stroke-width: .5px;
   pointer-events: none;
 }
+section{
 
+}
+</style>
+<style>
+
+.arc text {
+  font: 10px sans-serif;
+  text-anchor: middle;
+}
+
+.arc path {
+  stroke: #fff;
+}
+.bign{
+ font-size: 12vw;
+}
+.center{
+  text-align: center;
+
+}
+.slick{
+  font-weight: 100;
+}
+section{
+  color:#5c5c5c;
+}
 </style>
 <body>
 <script src="//d3js.org/d3.v3.min.js"></script>
 <script src="//d3js.org/topojson.v1.min.js"></script>
-<script>
+<div class="bg-img">
+    <img src="img/mxprop.png">
+   <!--  <img id="site-logo" src="./fresco/img/logo.png" > -->
+</div>
 
-var width = 560,
-    height = 528;
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-10 col-md-10 col-lg-10 col-sm-offset-2 col-md-offset-1 col-lg-offset-1">
+        <section>
+           <h1>Resultados</h1>
+           <div class="col-sm-6 col-md-6 col-lg-6 center" >
+                Respuestas recibidas
+                        <p class="bign slick">27 </p>
+           </div>
+           <div class="col-sm-6 col-md-6 col-lg-6 center" >
+           Edad Promedio
+                        <p class="bign slick"> 132</p>
+           </div>
 
-var projection = d3.geo.conicConformal()
-    .rotate([102, 0])
-    .center([0, 24])
-    .parallels([17.5, 29.5])
-    .scale(1550)
-    .translate([width / 2, height / 2]);
 
-var path = d3.geo.path()
-    .projection(projection);
 
-var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height);
+        </section>
+        <hr>
+        <section>
+          <div id="map1"></div>
+        </section>
+        <hr>
+        <section>
+          <div id="donut"></div>
+        </section>
 
-d3.json("mx.json", function(error, mx) {
-	submap=[];
-	mm=topojson.feature(mx, mx.objects.municipalities).features;
-	 console.log("check",mm);
-	//submap.objects=mx.objects;
-  if (error) throw error;
-  for(munnum in mm){
-  	municipio=mm[munnum];
-  	//console.log(munnum);
-  	if (municipio.properties.name !="Parras") {
-  		//delete mx.objects.municipalities.geometries[munnum];
-  		//submap
-  	}
-  	else{
-  		submap[munnum]=mm[munnum];
-  	}
-  	
 
-  }
-  
-  console.log("original",mx.objects.municipalities);
-  console.log("copia",submap)
- 
-  svg.append("g")
-      .attr("class", "municipalities")
-    .selectAll("path")
-      .data(topojson.feature(mx, mx.objects.municipalities).features)
-    .enter().append("path")
-      .attr("d", path)
-    .append("title")
-      .text(function(d) { 
-      	if (d) {
-      		//console.log(d)
-      		return d.properties.name; 
-      	}
-      	else{
-      		return "";
-      	}
-       
-   });
+<script src="js/donut.js"></script>
+<script src="js/map1.js"></script>
 
-  svg.append("path")
-      .datum(topojson.mesh(mx, mx.objects.municipalities, function(a, b) { return a.properties.state !== b.properties.state; }))
-      .attr("class", "state-boundary")
-      .attr("d", path);
 
-  svg.append("path")
-      .datum(topojson.mesh(mx, mx.objects.municipalities, function(a, b) { return a.properties.state === b.properties.state && a !== b; }))
-      .attr("class", "municipality-boundary")
-      .attr("d", path);
-});
 
-d3.select(self.frameElement).style("height", height + "px");
 
-</script>
+
+
+        </div>
+    </div>
+</div>
+
+
+<!-- <script src="js/donut.js"></script> -->
