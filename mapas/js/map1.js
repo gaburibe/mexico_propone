@@ -1,42 +1,36 @@
- active = d3.select(null);
- var zoom = d3.behavior.zoom()
-    .translate([0, 0])
-    .scale(1)
-    .scaleExtent([1, 8])
-    .on("zoom", zoomed);
-function zoomed() {
-  svg.style("stroke-width", 1.5 / d3.event.scale + "px");
-  svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-}
+ 
 function clicked(d) {
-  console.log("clicked");
-  if (active.node() === this) return reset();
-  active.classed("active", false);
-  active = d3.select(this).classed("active", true);
+  
+  var x, y, k;
+  console.log("wot?");
+  if (d && centered !== d) {
+    console.log("clicked");
+    var centroid = path.centroid(d);
+    x = centroid[0];
+    y = centroid[1];
+    k = 5;
+    centered = d;
+  } else {
+    console.log("clicked-null");
+    x = width / 2;
+    y = height / 2;
+    k = 1;
+    centered = null;
+  }
 
-  var bounds = path.bounds(d),
-      dx = bounds[1][0] - bounds[0][0],
-      dy = bounds[1][1] - bounds[0][1],
-      x = (bounds[0][0] + bounds[1][0]) / 2,
-      y = (bounds[0][1] + bounds[1][1]) / 2,
-      scale = Math.max(1, Math.min(8, 0.9 / Math.max(dx / width, dy / height))),
-      translate = [width / 2 - scale * x, height / 2 - scale * y];
+  g.selectAll("path")
+      .classed("active", centered && function(d) { return d === centered; });
 
-  svg.transition()
+  g.transition()
       .duration(750)
-      .call(zoom.translate(translate).scale(scale).event);
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+      .style("stroke-width", 1.5 / k + "px");
 }
-function reset() {
-  active.classed("active", false);
-  active = d3.select(null);
 
-  svg.transition()
-      .duration(750)
-      .call(zoom.translate([0, 0]).scale(1).event);
-}
 
 var width = 660,
-    height = 628;
+    height = 628,
+    centered;
 
 var projection = d3.geo.conicConformal()
     .rotate([102, 0])
@@ -51,6 +45,12 @@ var path = d3.geo.path()
 var svg = d3.select("#map1").append("svg")
     .attr("width", width)
     .attr("height", height);
+    svg.append("rect")
+    .attr("class", "background")
+    .attr("width", width)
+    .attr("height", height)
+    .on("click", clicked);
+var g = svg.append("g");
 
 d3.json("mx.json", function(error, mx) {
   submap=[];
@@ -75,14 +75,15 @@ d3.json("mx.json", function(error, mx) {
   console.log("original",mx.objects.municipalities);
   console.log("copia",submap)
  
-  svg.append("g")
+  g.append("g")
       .attr("class", "municipalities")
-      .on("click", clicked)
     .selectAll("path")
       .data(topojson.feature(mx, mx.objects.municipalities).features)
     .enter().append("path")
       .attr("d", path)
+      .on("click", clicked)
     .append("title")
+    
     
       .text(function(d) { 
         if (d) {
@@ -95,12 +96,12 @@ d3.json("mx.json", function(error, mx) {
        
    });
 
-  svg.append("path")
+  g.append("path")
       .datum(topojson.mesh(mx, mx.objects.municipalities, function(a, b) { return a.properties.state !== b.properties.state; }))
       .attr("class", "state-boundary")
       .attr("d", path);
 
-  svg.append("path")
+  g.append("path")
       .datum(topojson.mesh(mx, mx.objects.municipalities, function(a, b) { return a.properties.state === b.properties.state && a !== b; }))
       .attr("class", "municipality-boundary")
       .attr("d", path);

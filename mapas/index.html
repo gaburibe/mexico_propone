@@ -13,22 +13,27 @@
 <style>
 
 .municipalities {
-  fill: #222;
-}
+  fill: #fff;
 
+}
+.municipalities .active {
+  fill: #fff;
+  stroke: #0ce8a9;
+  stroke-width: 1.5px;
+}
 .municipalities :hover {
-  fill: orange;
+  fill: grey;
 }
 
 .state-boundary {
   fill: none;
-  stroke: #fff;
+  stroke: #000;
   pointer-events: none;
 }
 
 .municipality-boundary {
   fill: none;
-  stroke: #fff;
+  stroke: #000;
   stroke-opacity: .25;
   stroke-width: .5px;
   pointer-events: none;
@@ -40,8 +45,8 @@ section{
 <style>
 
 .arc text {
-  font: 10px sans-serif;
-  text-anchor: middle;
+  /*font: 10px sans-serif;
+  text-anchor: middle;*/
 }
 
 .arc path {
@@ -60,6 +65,18 @@ section{
 section{
   color:#5c5c5c;
 }
+.background{
+  fill:#fff;
+  stroke:black;
+  pointer-events: all;
+}
+.centertext{
+    font: 100px "Open Sans";
+  text-anchor: middle;
+    fill:#0ce8a9;
+    font-family: "Open Sans" !important;
+  }
+
 </style>
 <body>
 <script src="//d3js.org/d3.v3.min.js"></script>

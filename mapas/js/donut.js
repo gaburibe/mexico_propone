@@ -1,6 +1,6 @@
 function donut(){
-	var width = 960,
-    height = 500,
+	var width = 360,
+    height = 300,
     radius = Math.min(width, height) / 2;
 
 var color = d3.scale.ordinal()
@@ -8,7 +8,7 @@ var color = d3.scale.ordinal()
 
 var arc = d3.svg.arc()
     .outerRadius(radius - 10)
-    .innerRadius(radius - 70);
+    .innerRadius(radius - 50);
 
 var pie = d3.layout.pie()
     .sort(null)
@@ -19,6 +19,10 @@ var svg = d3.select("#donut").append("svg")
     .attr("height", height)
   .append("g")
     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+    svg.append("text")
+      .attr("dy", ".35em")
+      .attr("class","centertext")
+      .text(function(d) { return "27" });
 
 d3.csv("data/res.csv", type, function(error, data) {
   if (error) throw error;
@@ -32,10 +36,10 @@ d3.csv("data/res.csv", type, function(error, data) {
       .attr("d", arc)
       .style("fill", function(d) { return color(d.data.age); });
 
-  g.append("text")
-      .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-      .attr("dy", ".35em")
-      .text(function(d) { return d.data.age; });
+  // g.append("text")
+  //     .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+  //     .attr("dy", ".35em")
+  //     .text(function(d) { return d.data.age; });
 });
 }
 
