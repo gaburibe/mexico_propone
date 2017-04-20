@@ -1,20 +1,21 @@
-function donut(){
-	var width = 360,
-    height = 300,
-    radius = Math.min(width, height) / 2;
+function donut(contenedor){
+  console.log("DONUTR")
+	var width = 230,
+    height = 290,
+    radius = 120;
 
 var color = d3.scale.ordinal()
     .range(["#0ce8a9", "#0dcc91", "#0caa75", "#0d8459", "#08442a", "#000", "#fff"]);
 
 var arc = d3.svg.arc()
     .outerRadius(radius - 10)
-    .innerRadius(radius - 50);
+    .innerRadius(radius - 35);
 
 var pie = d3.layout.pie()
     .sort(null)
     .value(function(d) { return d.population; });
 
-var svg = d3.select("#donut").append("svg")
+var svg = d3.select("#"+contenedor).append("svg")
     .attr("width", width)
     .attr("height", height)
   .append("g")
@@ -22,7 +23,7 @@ var svg = d3.select("#donut").append("svg")
     svg.append("text")
       .attr("dy", ".35em")
       .attr("class","centertext")
-      .text(function(d) { return "27" });
+      .text(function(d) { return "100%" });
 
 d3.csv("data/res.csv", type, function(error, data) {
   if (error) throw error;
