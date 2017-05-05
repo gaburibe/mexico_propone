@@ -95,12 +95,46 @@ section{
     fill:#00cc99;
     font-family: robototito !important;
   }
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
 
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+.titdona{
+  position: absolute;
+  top:-5px;
+  width:50%;
+  text-align: center;
+}
 </style>
 <body>
 
 <script src="//d3js.org/d3.v3.min.js"></script>
 <script src="//d3js.org/topojson.v1.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
  <script src="js/donut.js"></script>
  <script src="js/map1.js"></script>
 <div class="bg-img">
@@ -138,10 +172,18 @@ section{
     <div class="row">
     <div class="col-sm-10 col-md-10 col-lg-10 col-sm-offset-2 col-md-offset-1 col-lg-offset-1">
     <h1></h1>
-          <div  class="col-md-5 col-md-offset-1" id="donut1"></div>
-          <div  class="col-md-5 col-md-offset-1" id="donut2"></div>
-          <div  class="col-md-5 col-md-offset-1" id="donut3"></div>
-          <div  class="col-md-5 col-md-offset-1" id="donut4"></div>
+          <div  class="col-md-5 col-md-offset-1" id="donut1">
+            <span class="titdona">Género</span>
+          </div>
+          <div  class="col-md-5 col-md-offset-1" id="donut2">
+            <span class="titdona">Educación</span>
+          </div>
+          <div  class="col-md-5 col-md-offset-1" id="donut3">
+            <span class="titdona">Hijos</span>
+          </div>
+          <div  class="col-md-5 col-md-offset-1" id="donut4">
+            <span class="titdona">Ocupación</span>
+          </div>
           <script type="text/javascript">
             donut("donut1");
             donut("donut2");
